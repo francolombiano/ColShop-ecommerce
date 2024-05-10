@@ -1,0 +1,68 @@
+:root {
+    --jaune: #ffff00;
+    --bleu: #0000ff;
+    --rouge: #FF0000;
+    --gray: #EDEAE5;
+    --black: #000;
+   --white: #FFFFFF;
+  }
+  
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+  }
+  
+  img {
+    width: 100%;
+  }
+
+  /*Pour rendre le logo rond */
+
+  .img-rounded {
+    border-radius: 30%;
+  }
+  /* Image de fond index */
+  .affiche {
+     background-image: url(../img/img_principal_index.jpg);
+     background-size: cover;
+     background-position: center;
+     background-repeat: no-repeat;
+    height: 80vh; 
+  }
+
+  /* fond pour le header */
+.en-tete {
+  background-color: var(--bleu);
+}
+
+/* menu */
+.text-menu {
+  color: var(--jaune); 
+  font-weight: bold;
+}
+
+/* btn de registre */
+.btn-registre {
+  background-color: var(--jaune);
+  margin-right: 10px;
+  color: var(--rouge);
+  text-align: center;
+  font-weight: bold;
+  font-family:roboto;
+}
+/* btn pour se conecter */
+.btn-login {
+  background-color: var(--jaune);
+  color: var(--rouge);
+  text-align: center;
+  font-weight: bold;
+  font-family:roboto;
+}
+
+h1, h3, a {
+  font-family: roboto;
+}
+
+
