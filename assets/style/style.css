@@ -5,6 +5,7 @@
     --gray: #EDEAE5;
     --black: #000;
    --white: #FFFFFF;
+   --gray-dark: #333333;
   }
   
   * {
@@ -12,16 +13,27 @@
     padding: 0;
     box-sizing: border-box;
     text-decoration: none;
+    font-family: "Roboto", sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
   }
-  
+
+  body {
+    width: 100%;
+  }
+ 
   img {
     width: 100%;
   }
 
   /*Pour rendre le logo rond */
-
   .img-rounded {
     border-radius: 30%;
+    transition: transform 0.3s;
+  }
+/* effet sur le logo */
+  .img-rounded:hover {
+    transform: scale(1.1);
   }
   /* Image de fond index */
   .affiche {
@@ -29,12 +41,14 @@
      background-size: cover;
      background-position: center;
      background-repeat: no-repeat;
-    height: 80vh; 
+     height: 80vh; 
+    /* opacity: 0.95; */
   }
 
   /* fond pour le header */
 .en-tete {
   background-color: var(--bleu);
+  opacity: 0.9;
 }
 
 /* menu */
@@ -60,9 +74,92 @@
   font-weight: bold;
   font-family:roboto;
 }
+/* efect logo panier */
+.nav-link .bi {
+  transition: transform 0.2s ease;
+}
 
-h1, h3, a {
+.nav-link:hover .bi {
+  transform: scale(1.1);
+}
+
+/* titre de la web */
+.site-name{
+    padding: 25%;
+    color: var(--jaune);
+    font-weight: bold;
+    border-radius: 5px; /* Borde redondeado */
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 2); /* Sombra de texto */
+}
+
+/* Div contenant les articles */
+.articles {
+  width: 80%;
+  margin: 0 auto;
+  background-color: var(--jaune);
+  /* opacity: 0.9;  */
+}
+/* Boutons à acheter */
+.add-to-cart {
+  background-color: var(--jaune);
+  color: var(--rouge);
+  font-family: roboto;
+  font-weight: bold;
+}
+.acheter {
+  justify-content: center;
+  text-align: center;
+}
+/* texte du description du les produits */
+figcaption {
+  color:var(--gray-dark)
+} 
+
+h1, h3, a  {
   font-family: roboto;
 }
+
+/* footer */
+/* logo footer */
+.logo-retrait {
+  border-radius: 30%;
+  padding-left: 5%;
+  transition: transform 0.2s ease;
+}
+
+.logo-retrait:hover {
+  transform: scale(1.1);
+}
+
+/* color font footer */
+.final {
+  background-color: var(--bleu);
+  opacity: 0.9; 
+}
+
+/* reseaux sociaux */
+.reseaux { 
+  padding-left: 5%;
+  color: var(--jaune);
+}
+
+
+/* Slogan a cote de logo en footer */
+.texte-final {
+  color: var(--jaune);
+  padding-top: 10%;
+  padding-left: 15px;
+}
+/* Information et emplacemente de le e-shop */
+.donees {
+  color: var(--jaune);
+  padding-left: 15%;
+}
+h3,h2 {
+  color: var(--gray-dark);
+}
+
+
+
 
 
