@@ -44,6 +44,12 @@ function connexionBdd()
 }
  connexionBdd();
 
+ //////////////Fonction deconexion de la BDD//////////////////////
+//  function deconnexionBdd($pdo)
+// {
+//     $pdo = null;
+// }
+
   //////////Fonction produits index pour voir les premieres 9///////////////////////
   function produitsIndex(): array
   {
@@ -66,6 +72,17 @@ function connexionBdd()
     return $result; 
 }
 
+////////////////////////Function pour voir un seule produit pour ID//////////////////////
+function getProduitById($id_produit): array
+{
+    $pdo = connexionBdd();
+    $sql = "SELECT * FROM produits WHERE id_produit = :id";
+    $request = $pdo->prepare($sql);
+    $request->execute(['id' => $id_produit]);
+    $result = $request->fetch();
+
+    return $result;
+}
 
  //////////////////////function para agregar al carrito /////////////////////////
 //  ojo revisar bien esto manana y considerar el hecho de anadi y quitar ///////

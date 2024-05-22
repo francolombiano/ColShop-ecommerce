@@ -51,7 +51,7 @@ require_once "functions.inc.php";
                             <a class="nav-link text-menu" href="#">EXPEDITION ET RETOUR</a>
                         </li>
                         <li class="nav-item p-1">
-                            <a class="nav-link text-menu" href="./contactez_nous.php">CONTACT NOUS</a>
+                            <a class="nav-link text-menu" href="./voirProduit.php">TOUS LES PRODUITS</a>
                         </li>
                     </ul>
                     <!-- button Registre -->
