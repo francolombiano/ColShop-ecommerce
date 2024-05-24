@@ -55,9 +55,13 @@ require_once "functions.inc.php";
                         </li>
                     </ul>
                     <!-- button Registre -->
-                    <button type="button" class="btn btn-warning btn-sm d-flex col-12 col-md-1 btn-registre text-center">Register</button>
+                    <a href="./register.php" class="btn btn-warning btn-sm d-flex col-12 col-md-1 btn-registre text-center">
+                     <button type="button" class="btn btn-warning btn-sm d-flex col-12 col-md-1 btn-registre text-center">Register</button>
+                    </a>
                     <!-- button pur se conecter -->
-                    <button type="button" class="btn btn-warning btn-sm d-flex col-12 col-md-1 btn-login text-center">Se connecter</button>
+                    <a href="./authentification.php" class="btn btn-warning btn-sm d-flex col-12 col-md-1 btn-login text-center">
+                    <button type="button" class="btn btn-warning btn-sm d-flex col-12 col-md-1 btn-login text-center">Connecter</button>
+                    </a>
                     <!-- Cart -->
                     <a class="nav-link mx-auto col-sm-12 col-md-1 d-flex p-1" href="#">
                         <i class="bi bi-cart-fill col-sm-12 col-md-1 display-5 text-warning"></i>

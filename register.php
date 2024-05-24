@@ -1,6 +1,32 @@
 <?php
 require_once "inc/functions.inc.php";
 
+      if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $email = $_POST['email'];
+        // Verifier si l'email exist deja
+        $resultat = checkEmailUser($email);
+        if ($resultat) {
+          // Si l'email existe déjà, rediriger l'utilisateur vers la page authentification.php.
+          // echo "El email ya existe. Por favor, elija otro email";
+            header("Location: authentification.php");
+            exit;
+        } else {
+          // Si l'adresse électronique n'existe pas dans la base de données, poursuivez la procédure d'enregistrement. 
+           if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+              $nom = $_POST['nom'];
+              $telephone = $_POST['telephone'];
+              $email = $_POST['email'];
+              $motPasse = $_POST['motPasse'];
+              $confirmMotPasse = $_POST['confirmMotPasse'];
+              $civility = $_POST['civility'];
+              $ville = $_POST['ville'];    
+    // J'ai utilise la fonction password_hash de PHP est utilisée pour hacher le mot de passe, elle prend deux arguments le mot de passe donné $motPasse et l'algorithme qui effectue le hachage PASSWORD_DEFALUT recommandé par PH
+              $hashedMotPasse = password_hash($motPasse, PASSWORD_DEFAULT);
+              addUser($nom, $telephone, $email, $hashedMotPasse, $civility, $ville);
+            }     
+        }
+    }
+    
 $title = "Registre";
 require_once "inc/header.inc.php";
 ?>
@@ -16,7 +42,7 @@ require_once "inc/header.inc.php";
 
   <!-- Formulaire de registre -->
   <!-- Ojo revisar poraue no funciona -->
-  <div id="enrigestrement-reusi text-dark" class="error"></div>
+
   <section class="ecrivez-nous p-5">
 
     <form id="form1" action="register.php" method="POST" class="w-50 mx-auto p-3 rounded-5 formV border p-5 col-sm-12 col-md-8">
@@ -47,8 +73,7 @@ require_once "inc/header.inc.php";
         <input type="password" class="form-control rounded-pill input-custom" id="motPasse" name="motPasse" placeholder="Inscrivez ici votre Mot de Passe">
         <i class="bi bi-eye-slash ms-3 iconeye" id="toggleMotPasse"></i>
         <div id="motPasseError" class="error"></div>
-        <!-- <span class="inputError"></span> -->
-
+        
       </div>
 
       <div class="p-3 inputs col-sm-12">
@@ -56,7 +81,7 @@ require_once "inc/header.inc.php";
         <input type="password" class="form-control rounded-pill input-custom" id="confirmMotPasse" name="confirmMotPasse" placeholder="Inscrivez ici votre Mot de Passe encore">
         <i class="bi bi-eye-slash ms-3 iconeye1" id="toggleConfirmMotPasse"></i>
         <div id="confirmMotPasseError" class="error"></div>
-        <!-- <span class="inputError"></span> -->
+        
       </div>
 
       <div class="p-3 civilite col-sm-12">
@@ -77,10 +102,10 @@ require_once "inc/header.inc.php";
       </div>
 
       </div>
-
-      <!-- bouton -->
+      <!-- bouton pour envoier les dones d'inscription -->
+      <div>
       <button type="submit" class="btn btn-outline-dark rounded-start ms-4 bouton">Registre</button>
-      <!-- </div> -->
+      </div>
     </form>
   </section>
 

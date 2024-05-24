@@ -4,9 +4,9 @@
      $title = "Accueil";
 
     require_once "inc/header.inc.php";
-    $produits = produitsIndex();
+    $produits = produitsIndex(); 
+ 
 ?>
-
     <main>
         <!--image de fond  -->
         <div class="affiche p-5">
@@ -19,6 +19,7 @@
         <section class="index-img container articles col-sm-12 pt-5 pb-5 produits text-center">
           <div class="row">
                <?php
+               //debug($produits); 
                foreach ($produits as $produit) {
                ?>
                     <div class="col-lg-4 col-md-6 col-sm-12 mb-4">

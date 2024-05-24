@@ -41,12 +41,11 @@ showConfirmMotPasse.addEventListener("click", function() {
 
 /********************Validation du le formulaire 1*****************/
 
-// validation de le formulaire*******************
 let myForm = document.getElementById('form1');
-// //console.log(myForm1);
+//console.log(myForm);
 
  let inputNom = document.getElementById('nom');
-// console.log(inputnom);
+// console.log(inputNom);
 let nomError = document.getElementById('nomError');
  //console.log(nomError);
 
@@ -79,9 +78,6 @@ let inputVille = document.getElementById('ville');
 let villeError = document.getElementById('villeError');
 //console.log(adresseError);
 
-  let registreReusi = document.getElementById('enrigestrement-reusi');
-//console.log(registreReusi);
-
 
 myForm.addEventListener('submit', function(event){
             event.preventDefault();
@@ -100,7 +96,6 @@ myForm.addEventListener('submit', function(event){
         confirmMotPasseError.textContent = '';
         civilityError.textContent = '';
         villeError.textContent = '';
-        // registreReusi.textContent = '';
     
 //Vérifiez que le champ du nom n'est pas vide
   if (valueNom === '') {
@@ -108,24 +103,11 @@ myForm.addEventListener('submit', function(event){
     inputNom.focus();
     return;
 }
-
+//  Restriction pour le champ nom complet du le formulaire
 if (valueNom.length < 3 || valueNom.length > 50) {
     nomError.textContent = 'Le prenom doit comporter entre 3 et 50 caractères..';
     inputNom.focus(); 
     return false;
-    }
-
-// Vérifiez que le champ Nom de famille n'est pas vide
-  if (valueNom === '') {
-    nomError.textContent = 'Veuillez entrer votre nom';
-    inputNom.focus();
-       return;
-    }
-
-    if (valueNom.length < 3 || valueNom.length > 20) {
-        nomError.textContent = 'Le nom de famille doit comporter entre 3 et 10 caractères.';
-        inputNom.focus(); 
-        return false;
     }
 
 //Pour vérifier que le champ téléphone n'est pas vide et est correctement renseigné
@@ -135,11 +117,12 @@ if (valueTelephone.length <10) {
     telephoneError.textContent = "";
   }
 
-    if (valueEmail === '') {
-       emailError.textContent = 'Veuillez entrer votre email';
-       inputEmail.focus();
-        return;
-         }
+//Pour vérifier que le champ email n'est pas vide
+if (valueEmail === '') {
+    emailError.textContent = 'Veuillez entrer votre email';
+    inputEmail.focus();
+     return;
+     }
 
 // Expression régulière pour valider le format de l'e-mail
 let emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -148,16 +131,18 @@ let emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     emailError.textContent = 'Veuillez entrer un email valide';
     inputEmail.focus();
     return;
-}else {
+    }else {
         emailError.textContent = '';
      }
 
+//Pour vérifier que le champ, mot de passe, n'est pas vide et est correctement renseigné
 if (valueMotPasse === '') {
     motPasseError.textContent = 'Vous devez entrer un mot de passe valide';
     inputMotPasse.focus();
     return;
     }
 
+    //Pour vérifier que le champ, confirm mot de passe, n'est pas vide et est correctement renseigné
 if (valueConfirmMotPasse === '') {
     confirmMotPasseError.textContent = 'Vous devez confirmer le mot de passe';
     inputConfirmMotPasse.focus();
@@ -199,27 +184,18 @@ if (!passwordRegex.test(valueMotPasse)) {
    return;
   }
 
-//   Pour valider que la ville ne contient que des lettres et des espaces
-  let villeRegex = /^[A-Za-z\s]+$/; 
-  if (!villeRegex.test(valueVille)) {
-       villeError.textContent = 'Veuillez saisir une ville valide.';
-       inputVille.focus();
-       return false;
-  } else { return true;
- 
+    if (nomError.textContent === '' && telephoneError.textContent === '' && emailError.textContent === '' && motPasseError.textContent === '' && confirmMotPasseError.textContent === '' && civilityError.textContent === '' && villeError.textContent === '') {
+        inputNom.style.borderColor = 'red';
+        inputTelephone.style.borderColor = 'red';
+        inputEmail.style.borderColor = 'red';
+        inputMotPasse.style.borderColor = 'red';
+        inputConfirmMotPasse.style.borderColor = 'red';
+        inputCivility.style.borderColor = 'red';
+        inputVille.style.borderColor = 'red';
+    
+        document.querySelector('form').submit();
 
-// //If all the fields are correct, send the form and clean it
-inputNom.style.borderColor = 'red';
-inputTelephone.style.borderColor = 'red';
-inputEmail.style.borderColor = 'red';
-inputMotPasse.style.borderColor = 'red';
-inputConfirmMotPasse.style.borderColor = 'red';
-inputCivility.style.borderColor = 'red';
-inputVille.style.borderColor = 'red';
-
-document.querySelector('form1').submit();
-myForm.reset();
-registreReusi.textContent = 'Vous faites maintenant partie de notre communauté, bienvenue !';
+        myForm.reset();
 }
 });
 
