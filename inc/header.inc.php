@@ -1,12 +1,22 @@
 <?php
 require_once "functions.inc.php";
 
+$id = isset($_SESSION['user_id']) ? (int)$_SESSION['user_id'] : 0;
+$isUserConnected = false;
+if ($id > 0) {
+$user = showUser($id);
+$isUserConnected = isset($user['id']) && !empty($user['id']);
+}
 
-// déconnexion ($_SESSION)
-// logOut();
+if (isset($_GET['action']) && $_GET['action'] == 'deconnexion') {
+logOut();
+$_SESSION['user_id'] = 0; // Actualizar la sesión para indicar que el usuario está desconectado
+$isUserConnected = false; // Actualizar la variable $isUserConnected
+header("location:" . RACINE_SITE . "authentification.php");
+exit;
+}
 
 
-// $categories =  allCategories();
 ?>
 
 <!DOCTYPE html>
@@ -24,9 +34,9 @@ require_once "functions.inc.php";
     <!-- link for Bootstrap icons-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
     <!-- Link for CSS -->
-    <link rel="stylesheet" href="./assets/style/style.css">
+    <link rel="stylesheet" href="<?= RACINE_SITE ?>/assets/style/style.css">
     <!-- favicon -->
-    <link rel="icon" type="image/png" href="./assets/img/favicon.jpg">
+    <link rel="icon" type="image/png" href="<?= RACINE_SITE ?>/assets/img/favicon.jpg">
     <title><?= $title ?></title>
 </head>
 
@@ -36,13 +46,13 @@ require_once "functions.inc.php";
             <!-- Navbar --> <!-- Logo -->
             <nav class="navbar navbar-expand-lg">
                 <div class="container-fluid">
-                    <a class="navbar-brand col-sm-12 col-md-1 p-2" href="./index.php">
-                        <img src="./assets/img/logo.png" class="img-rounded" alt="Logo" height="100">
+                    <a class="navbar-brand col-sm-12 col-md-1 p-2" href="<?= RACINE_SITE ?>index.php">
+                        <img src="<?= RACINE_SITE ?>assets/img/logo.png" class="img-rounded" alt="Logo" height="100">
                     </a>
                     <!-- Menu Navigation -->
                     <ul class="navbar-nav col-sm-12 d-flex col-md-7 mx-auto">
                         <li class="nav-item p-1">
-                            <a class="nav-link text-menu" href="./index.php">ACCUEIL</a>
+                            <a class="nav-link text-menu" href="<?= RACINE_SITE ?>/index.php">ACCUEIL</a>
                         </li>
                         <li class="nav-item p-1">
                             <a class="nav-link text-menu" href="#">A PROPOS</a>
@@ -55,13 +65,17 @@ require_once "functions.inc.php";
                         </li>
                     </ul>
                     <!-- button Registre -->
-                    <a href="./register.php" class="btn btn-warning btn-sm d-flex col-12 col-md-1 btn-registre text-center">
-                     <button type="button" class="btn btn-warning btn-sm d-flex col-12 col-md-1 btn-registre text-center">Register</button>
+                    <a href="<?= RACINE_SITE ?>/register.php" class="btn btn-warning btn-sm d-flex justify-content-center align-items-center col-12 col-md-1 btn-registre">
+                        Register
                     </a>
-                    <!-- button pur se conecter -->
-                    <a href="./authentification.php" class="btn btn-warning btn-sm d-flex col-12 col-md-1 btn-login text-center">
-                    <button type="button" class="btn btn-warning btn-sm d-flex col-12 col-md-1 btn-login text-center">Connecter</button>
+
+                    <!-- button conecter -->
+
+                    <a href="<?php echo $isUserConnected ? 'index.php?action=deconnexion' : RACINE_SITE . '/authentification.php'; ?>" class="btn btn-warning btn-sm d-flex justify-content-center align-items-center col-12 col-md-1 btn-login">
+                    <?php echo $isUserConnected ? 'Deconecter' : 'Conec/Deconec'; ?>
                     </a>
+<!--                   
+
                     <!-- Cart -->
                     <a class="nav-link mx-auto col-sm-12 col-md-1 d-flex p-1" href="#">
                         <i class="bi bi-cart-fill col-sm-12 col-md-1 display-5 text-warning"></i>
@@ -70,4 +84,3 @@ require_once "functions.inc.php";
         </section>
         <!-- title -->
     </header>
-

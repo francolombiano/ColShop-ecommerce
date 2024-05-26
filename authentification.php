@@ -44,7 +44,6 @@ if (!empty($_POST)) {
     }
 }
 
-
 $title = "Authentification";
 require_once "inc/header.inc.php";
 ?>

@@ -92,11 +92,16 @@
     text-shadow: 2px 2px 2px rgba(0, 0, 0, 2); /* Sombra de texto */
 }
 
+/* fonds principal indiciel */
+.fond-index{
+  background-color: var(--gray);
+}
+
 /* Div contenant les articles */
 .articles {
   width: 80%;
   margin: 0 auto;
-  background-color: var(--jaune);
+  background-color: var(--white);
   /* opacity: 0.9;  */
 }
 /* Boutons à acheter */
@@ -143,7 +148,6 @@ h1, h3, a  {
   color: var(--jaune);
 }
 
-
 /* Slogan a cote de logo en footer */
 .texte-final {
   color: var(--jaune);
@@ -158,6 +162,13 @@ h1, h3, a  {
 h3,h2 {
   color: var(--gray-dark);
 }
+
+/* Taille des images de la liste administrative dans le tableau de bord/produits */
+.img-administration {
+  max-width: 100px; 
+  max-height: 100px; 
+}
+
 
 
 

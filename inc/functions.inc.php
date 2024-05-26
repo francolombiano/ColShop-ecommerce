@@ -39,13 +39,22 @@ function connexionBdd()
      return $pdo;
  }
  //////////////////////////Fonction pour finaliser la session/////////////
- function logOut()
-{if (isset($_GET['action']) && !empty($_GET['action']) && $_GET['action'] == 'deconnexion') {
-    unset($_SESSION['user']);
-    header("location:" . RACINE_SITE . "index.php");
+ function logOut() {
+    if (isset($_GET['action']) && !empty($_GET['action']) && $_GET['action'] == 'deconnexion') {
+        unset($_SESSION['user_id']); // Modificar la variable de sesión a 'user_id'
+        header("location:" . RACINE_SITE . "authentification.php");
     }
 }
- logOut();
+
+
+//  function logOut()
+// {           if (isset($_GET['action']) && !empty($_GET['action']) && $_GET['action'] == 'deconnexion') {
+//                  unset($_SESSION['user']);
+//                 header("location:" . RACINE_SITE . "authentification.php");
+//     }
+// }
+ 
+// //logOut();
 
  ///////////////////// Fonction d'alert ////////////////////////////////////////
 
@@ -56,7 +65,7 @@ function alert(string $contenu, string $class)
     </div>";
 }
 
-  //////////Fonction produits index pour voir les premieres 9///////////////////////
+  //////////Fonction pour voir les premieres 9 produits sur l'index///////////////////////
   function produitsIndex(): array
   { $pdo = connexionBdd();
     $sql = "SELECT * FROM produits ORDER BY id_produit DESC LIMIT 9";
@@ -75,6 +84,7 @@ function alert(string $contenu, string $class)
     $result = $request->fetchAll(); 
     return $result; 
 }
+
 
 ////////////////////////Function pour voir un seule produit pour ID//////////////////////
 function getProduitById($id_produit): array
@@ -114,25 +124,6 @@ function checkEmailUser(string $email): mixed
 }
 
 ////////////////Fonction pour verifier l'authentification d'email et mot de passe
-// function authentification($email, $motPasse)
-// {
-//     $pdo = connexionBdd();
-//     $sql = "SELECT * FROM users WHERE email = :email"; 
-//     $request = $pdo->prepare($sql);
-//     $request->execute(array(
-//         ':email' => $email
-//     ));
-
-//     $user = $request->fetch();
-
-//     if (password_verify($motPasse, $user['motPasse'])) {
-//         $_SESSION['user'] = $user;
-//         header("location:" . RACINE_SITE . "profil.php");
-//     } else {
-//         $info = alert("Les identifiants sont incorrectes", "danger");
-//     }
-// }
-
 
 function checkUser(string $email, string $motPasse): mixed
 {
@@ -142,7 +133,7 @@ function checkUser(string $email, string $motPasse): mixed
     $request->execute(array(
         ':email' => $email
     ));
-    
+
     $user = $request->fetch();
 
     if ($user && password_verify($motPasse, $user['motPasse'])) {
@@ -150,6 +141,74 @@ function checkUser(string $email, string $motPasse): mixed
     } else {
         return null;
     }
+}
+
+// /////////////////  Fonction pour recupereer un seul utilisateur  //////////////////////
+function showUser(int $id): array {
+    $pdo = connexionBdd();
+    $sql = "SELECT * FROM users WHERE id_user = :id_user";
+    $request = $pdo->prepare($sql);
+    $request->execute(array(':id_user' => $id));
+    $result = $request->fetch();
+    return $result ? $result : array(); // Devolver un array vacío en caso de que no se encuentre el usuario
+}
+
+///////////////////////////Fonction pour modifier un produit///////////
+function updateProduit(int $idProduit, string $nom, string $image, string $description, float $price, int $stock) : void 
+
+{
+    $pdo = connexionBdd();
+    $sql = "UPDATE produits SET 
+                    id_produit = :id,
+                    nom = :nom,
+                    image = :image,
+                    description = :description,
+                    price = :price,
+                    stock = :stock 
+                    WHERE id_produit = :id";
+
+    $request = $pdo->prepare($sql);
+    $request->execute(array (
+
+        ':id' => $idProduit,
+        ':nom' => $nom,
+        ':image' => $image,
+        ':description' => $description,
+        ':price' => $price,
+        ':stock' => $stock
+    ));
+}
+
+// ///////////  Fonction pour ajouter un produit  ////////////
+
+function addProduit(string $image, string $nom, string $description, float $price, int $stock): void
+{
+
+    $pdo = connexionBdd();
+
+    $sql = "INSERT INTO produits (image, nom, description, price, stock) VALUES (:image, :nom, :description, :price, :stock)";
+
+    $request = $pdo->prepare($sql);
+    $request->execute(array(
+
+        ':image' => $image,
+        ':nom' => $nom,
+        ':description' => $description,
+        ':price' => $price,
+        ':stock' => $stock
+       
+    ));
+}
+
+// //////////  Fonction pour supprimer un produit/////////////
+
+function deleteProduit(int $id): void
+{
+    $pdo = connexionBdd();
+
+    $sql = "DELETE FROM produits WHERE id_produit = :id";
+    $request = $pdo->prepare($sql);
+    $request->execute([':id' => $id]);
 }
 
  //////////////////////function para agregar al carrito /////////////////////////

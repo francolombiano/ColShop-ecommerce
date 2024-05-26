@@ -7,7 +7,7 @@
     $produits = produitsIndex(); 
  
 ?>
-    <main>
+    <main class="fond-index">
         <!--image de fond  -->
         <div class="affiche p-5">
             <div class="site-name text-center col-sm-12 col-md-12">
