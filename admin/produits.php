@@ -42,7 +42,7 @@ $title = "Produits";
                     <tr>
                         <td><?= $produit['id_produit'] ?></td>
                         <td><?= $produit['nom'] ?></td>
-                        <td> <img src="<?= IMAGES . $produit['image'] ?>" alt="Photo du produit" class="img-administration img-fluid"></td>
+                        <td> <img src="<?= RACINE_SITE ."assets/img/" . $produit['image'] ?>" alt="Photo du produit" class="img-administration img-fluid"></td>
                         <td><?= $produit['price'] . ' €' ?> </td>
                         <td><?= substr($produit['description'], 0, 50) ?>...</td>
                         <td><?= $produit['stock'] ?></td>

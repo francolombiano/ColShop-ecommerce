@@ -17,7 +17,7 @@ require_once "inc/header.inc.php";
     <div class="container">
         <div class="row p-5">
             <div class="col-lg-6">
-                <img src="<?= IMAGES . $produit['image'] ?>" class="img-fluid" alt="image de <?= $produit['nom'] ?>">
+                <img src="<?= RACINE_SITE ."assets/img/" . $produit['image'] ?>" class="img-fluid" alt="image de <?= $produit['nom'] ?>">
             </div>
             <div class="col-lg-6">
                 <h2><?= strtoupper($produit['nom']) ?></h2>

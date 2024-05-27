@@ -16,7 +16,6 @@ header("location:" . RACINE_SITE . "authentification.php");
 exit;
 }
 
-
 ?>
 
 <!DOCTYPE html>

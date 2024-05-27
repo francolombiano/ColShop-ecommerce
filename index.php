@@ -24,7 +24,7 @@
                ?>
                     <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
                          <div class="card">
-                              <img src="<?= IMAGES . $produit['image'] ?>" class="card-img-top" alt="image de <?= $produit['nom'] ?>">
+                              <img src="<?= RACINE_SITE ."assets/img/". $produit['image'] ?>" class="card-img-top" alt="image de <?= $produit['nom'] ?>">
                               <div class="card-body">
                                    <h5 class="card-title"><?= strtoupper($produit['nom']) ?></h5>
                                    <p class="card-text"><?= substr($produit['price'] . ' €', 0, 100)?></p>

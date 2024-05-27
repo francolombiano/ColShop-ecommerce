@@ -150,26 +150,35 @@ function showUser(int $id): array {
     $request = $pdo->prepare($sql);
     $request->execute(array(':id_user' => $id));
     $result = $request->fetch();
-    return $result ? $result : array(); // Devolver un array vacío en caso de que no se encuentre el usuario
+    return $result ? $result : array(); 
 }
 
 ///////////////////////////Fonction pour modifier un produit///////////
-function updateProduit(int $idProduit, string $nom, string $image, string $description, float $price, int $stock) : void 
-
+function updateProduit(int $idProduit, string $image, string $nom, string $description, float $price, int $stock) : void 
 {
     $pdo = connexionBdd();
+    $target_dir = "./assets/img/"; // Dossier de destination pour l'enregistrement de l'image
+    //  Vérifier si un fichier image a été correctement téléchargé, le déplacer à l'endroit souhaité et enregistrer le nom de l'image dans une variable.
+    //  Je vérifie qu'il n'y a pas eu d'erreur lors du téléchargement du fichier image. La constante UPLOAD_ERR_OK indique qu'il n'y a pas eu d'erreur lors du téléchargement du fichier.
+    if ($_FILES['image']['error'] === UPLOAD_ERR_OK) { 
+    // J'ai crée le chemin complet du fichier image à l'emplacement souhaité. $target_dir est le dossier de destination dans lequel le fichier sera stocké.
+        $target_file = $target_dir . basename($_FILES['image']['name']);
+    // Je déplacer le fichier image de son emplacement temporaire (stocké dans $_FILES['image']]['tmp_name']) vers l'emplacement final dans $target_file.
+        move_uploaded_file($_FILES['image']['tmp_name'], $target_file);
+    // Je stocke le nom de l'image dans une variable appelée $image.
+        $image = basename($_FILES['image']['name']);
+    }
+
     $sql = "UPDATE produits SET 
-                    id_produit = :id,
-                    nom = :nom,
-                    image = :image,
-                    description = :description,
-                    price = :price,
-                    stock = :stock 
-                    WHERE id_produit = :id";
+                nom = :nom,
+                image = :image,
+                description = :description,
+                price = :price,
+                stock = :stock 
+                WHERE id_produit = :id";
 
     $request = $pdo->prepare($sql);
     $request->execute(array (
-
         ':id' => $idProduit,
         ':nom' => $nom,
         ':image' => $image,
@@ -179,11 +188,11 @@ function updateProduit(int $idProduit, string $nom, string $image, string $descr
     ));
 }
 
+
 // ///////////  Fonction pour ajouter un produit  ////////////
 
 function addProduit(string $image, string $nom, string $description, float $price, int $stock): void
 {
-
     $pdo = connexionBdd();
 
     $sql = "INSERT INTO produits (image, nom, description, price, stock) VALUES (:image, :nom, :description, :price, :stock)";
@@ -202,6 +211,15 @@ function addProduit(string $image, string $nom, string $description, float $pric
 
 // //////////  Fonction pour supprimer un produit/////////////
 
+// function deleteProduit(int $id): void
+// {
+//     $pdo = connexionBdd();
+
+//     $sql = "DELETE FROM produits WHERE id_produit = :id";
+//     $request = $pdo->prepare($sql);
+//     $request->execute([':id' => $id]);
+// }
+
 function deleteProduit(int $id): void
 {
     $pdo = connexionBdd();
@@ -209,6 +227,10 @@ function deleteProduit(int $id): void
     $sql = "DELETE FROM produits WHERE id_produit = :id";
     $request = $pdo->prepare($sql);
     $request->execute([':id' => $id]);
+
+    // Redirigir a la misma página con un mensaje de confirmación
+    header('Location: produits.php?deleted=true');
+    exit;
 }
 
  //////////////////////function para agregar al carrito /////////////////////////
