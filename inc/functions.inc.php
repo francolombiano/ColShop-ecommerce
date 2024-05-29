@@ -188,62 +188,69 @@ function updateProduit(int $idProduit, string $image, string $nom, string $descr
     ));
 }
 
-
+////////////////panier///////////////////////
 // ///////////  Fonction pour ajouter un produit  ////////////
 
-function addProduit(string $image, string $nom, string $description, float $price, int $stock): void
-{
-    $pdo = connexionBdd();
-
-    $sql = "INSERT INTO produits (image, nom, description, price, stock) VALUES (:image, :nom, :description, :price, :stock)";
-
-    $request = $pdo->prepare($sql);
-    $request->execute(array(
-
-        ':image' => $image,
-        ':nom' => $nom,
-        ':description' => $description,
-        ':price' => $price,
-        ':stock' => $stock
-       
-    ));
+function ajouterProduitAuPanier($idProduit, $nom, $price, $image) {
+    if(isset($_SESSION['panier'][$idProduit])) {
+        $_SESSION['panier'][$idProduit]['quantite']++;
+    } else {
+        $_SESSION['panier'][$idProduit] = [
+            'id_produit' => $idProduit,
+            'quantite' => 1,
+            'nom' => $nom,
+            'price' => $price,
+            'image' => $image
+        ];
+    }
 }
 
-// //////////  Fonction pour supprimer un produit/////////////
-
-// function deleteProduit(int $id): void
-// {
-//     $pdo = connexionBdd();
-
-//     $sql = "DELETE FROM produits WHERE id_produit = :id";
-//     $request = $pdo->prepare($sql);
-//     $request->execute([':id' => $id]);
-// }
-
-function deleteProduit(int $id): void
-{
-    $pdo = connexionBdd();
-
-    $sql = "DELETE FROM produits WHERE id_produit = :id";
-    $request = $pdo->prepare($sql);
-    $request->execute([':id' => $id]);
-
-    // Redirigir a la misma página con un mensaje de confirmación
-    header('Location: produits.php?deleted=true');
-    exit;
+// Función para eliminar un producto del carrito
+function supprimerProduitDuPanier($idProduit) {
+    if(isset($_SESSION['panier'][$idProduit])) {
+        unset($_SESSION['panier'][$idProduit]);
+    }
 }
 
- //////////////////////function para agregar al carrito /////////////////////////
-//  ojo revisar bien esto manana y considerar el hecho de anadi y quitar ///////
- 
-//  $producto_id = $_GET['producto'];
+// Función para obtener el carrito
+function getPanier() {
+    if(isset($_SESSION['panier'])) {
+        return $_SESSION['panier'];
+    } else {
+        return [];
+    }
+}
 
-// if (!isset($_SESSION['carrito'])) {
-//     $_SESSION['carrito'] = [];
-// }
+// Función para calcular el total del carrito
 
-// array_push($_SESSION['carrito'], $producto_id);
+function calculerTotalPanier($panier) {
+    $total = 0;
+    foreach ($panier as $produit) {
+        $total += $produit['price'] * $produit['quantite'];
+    }
+    return $total;
+}
 
-// header('Location: ' . $_SERVER['HTTP_REFERER']);
+function getProduitParId($idProduit) {
+    // Conectar a la base de datos
+    $pdo = connexionBdd();
+
+    // Preparar la consulta
+    $query = "SELECT * FROM produits WHERE id_produit = :id_produit";
+
+    // Ejecutar la consulta
+    $stmt = $pdo->prepare($query);
+    $stmt->bindParam(':id_produit', $idProduit);
+    $stmt->execute();
+
+    // Obtener el resultado
+    $produit = $stmt->fetch();
+
+    // Cerrar la conexión
+    $pdo = null;
+
+    return $produit;
+}
+
 
 ?>

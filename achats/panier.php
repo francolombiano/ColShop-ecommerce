@@ -1,154 +1,55 @@
 <?php
 require_once "../inc/functions.inc.php";
 
-
-// if (!isset($_SESSION['user'])) {
-
-//     header("location:" . RACINE_SITE . "authentification.php");
-// }
-
-//     debug($_POST);
-if (isset($_POST["ajout_panier"])) {
-
-    $id_film = htmlentities($_POST['id_film']);
-    $quantity = htmlentities($_POST['quantity']);
-    // debug($id_film);
-
-
-    if (!isset($quantity) || empty($quantity)) {
-
-        header("location:" . RACINE_SITE . "showFilm.php");
-    } else {
-
-
-        if (!isset($_SESSION['panier'])) {
-
-            $_SESSION["panier"] = array();
-        }
-
-
-        $film_existe = false;
-
-        foreach ($_SESSION['panier'] as $key => $film) {
-            if ($film['id_film'] === $id_film) {
-
-                $_SESSION['panier'][$key]['quantity'] += $quantity;
-                $film_existe = true;
-                break;
-            }
-        }
-        if (!$film_existe) {
-
-            $new_film = array(
-                'id_film' => $id_film,
-                'quantity' => $quantity,
-                'title' => $_POST['title'],
-                'price' => $_POST['price'],
-                'stock' => $_POST['stock'],
-                'image' => $_POST['image']
-
-            );
-            $_SESSION['panier'][] = $new_film;
-        }
-    }
-}
-
-if (isset($_GET['id_film']) && isset($_SESSION['panier'])) {
-
-    $idFilmForDelete = $_GET['id_film'];
-
-    foreach ($_SESSION['panier'] as $key => $filmpanier) {
-        if ($filmpanier['id_film'] === $idFilmForDelete) {
-
-            unset($_SESSION['panier'][$key]);
-            break;
-        }
-    }
-} else if (isset($_GET['vider'])) {
-
-    unset($_SESSION['panier']);
-}
-
-
-
-
-
-
-
-
 $title = "Panier";
 
 require_once "../inc/header.inc.php";
 
+if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['produit']) && is_numeric($_POST['produit'])) {
+    $idProduit = $_POST['produit'];
+
+    // Obtener información del producto
+    $produit = getProduitParId($idProduit);
+  
+    // Añadir producto al carrito
+    ajouterProduitAuPanier($idProduit, $produit['nom'], $produit['price'], $produit['image']);
+}
+
+if(isset($_GET['supprimer']) && is_numeric($_GET['supprimer'])) {
+    $idProduit = $_GET['supprimer'];
+
+    // Eliminar producto del carrito
+    supprimerProduitDuPanier($idProduit);
+}
+
+$panier = getPanier();
+$total = calculerTotalPanier($panier);
 ?>
 
-<div class="panier d-flex justify-content-center" style="padding-top:8rem;">
+<main class="container">
+    <h2 class="text-center my-4">Mon Panier</h2>
 
-
-    <div class="d-flex flex-column  mt-5 p-5">
-        <h2 class="text-center fw-bolder mb-5 text-danger">Mon panier</h2>
-
-
-        <?php
-        $info = '';
-
-
-        if (!isset($_SESSION['panier']) || empty($_SESSION['panier'])) {
-
-            $info = alert("Votre panier est vide", "danger");
-            echo $info;
-        } else {
-
-        ?>
-            <a href="?vider" class="btn align-self-end mb-5">Vider le panier</a>
-
-            <table class="fs-4">
-                <tr>
-                    <th class="text-center text-danger fw-bolder">Photo</th>
-                    <th class="text-center text-danger fw-bolder">Nom</th>
-                    <th class="text-center text-danger fw-bolder">Prix</th>
-                    <th class="text-center text-danger fw-bolder">Quantité</th>
-                    <th class="text-center text-danger fw-bolder">Sous-total</th>
-                    <th class="text-center text-danger fw-bolder">Supprimer</th>
-                </tr>
-
-                <?php
-                // Je vais parcourir tous les éléments dans le tableau $_SESSION['panier'] et, pour chaque élément, assigner la valeur à la variable $produit. La variable $produit représentera un élément du tableau à chaque itération de la boucle forEach.
-                foreach ($_SESSION['panier'] as  $produit) {
-                ?>
-                    <tr>
-                        <td class="text-center border-top border-dark-subtle"><a href="<?= RACINE_SITE ?>voirProduit.php?id_produit=<?= $produit['id_produit'] ?>"><img src="<?= RACINE_SITE . "assets/img/" . $produit['image'] ?>" style="width: 100px;"></a></td>
-                        <td class="text-center border-top border-dark-subtle"><?= $produit['nom'] ?></td>
-                        <td class="text-center border-top border-dark-subtle"><?= $produit['price'] ?>€</td>
-                        <td class="text-center border-top border-dark-subtle d-flex align-items-center justify-content-center" style="padding: 7rem;">
-
-                            <?= $produit['quantity'] ?>
-
-                        </td>
-                        <td class="text-center border-top border-dark-subtle"><?= $sousTotal = $produit['price'] * $produit['quantity'] ?>€</td>
-                        <td class="text-center border-top border-dark-subtle"><a href="?id_produit=<?= $produit['id_produit'] ?>"><i class="bi bi-trash3"></i></a></td>
-                    </tr>
-                <?php
-                }
-
-                ?>
-                <tr class="border-top border-dark-subtle">
-                    <th class="text-danger p-4 fs-3">Total : <?= $total = calculerMontantTotal($_SESSION['panier']) ?>€</th>
-                </tr>
-
-
-
-            </table>
-            <form action="checkout.php" method="post">
-                <input type="hidden" name="total" value="<?= $total ?>">
-                <button type="submit" class="btn btn-danger mt-5 p-3" id="checkout-button">Payer</button>
-
-
-            </form>
-
-        <?php
-
-        }
-        ?>
+    <div class="row">
+        <?php foreach ($panier as $produit): ?>
+            <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+                <div class="card">
+                    <img src="<?= RACINE_SITE ."assets/img/". $produit['image'] ?>" class="card-img-top" alt="image de <?= $produit['nom'] ?>">
+                    <div class="card-body">
+                        <h5 class="card-title"><?= $produit['nom'] ?></h5>
+                        <p class="card-text"><?= $produit['price'] ?> €</p>
+                        <a href="<?= RACINE_SITE ?>achats/panier.php?supprimer=<?= $produit['id_produit'] ?>" class="btn btn-danger">Supprimer</a>
+                    </div>
+                </div>
+            </div>
+        <?php endforeach; ?>
     </div>
-</div>
+
+    <div class="text-center mt-4">
+        <p>Total: <?= $total ?> €</p>
+        <a href="<?= RACINE_SITE ?>achats/paiement.php" class="btn btn-primary">Paiement</a>
+    </div>
+</main>
+
+<?php
+require_once "../inc/footer.inc.php";
+?>

@@ -23,7 +23,11 @@ require_once "inc/header.inc.php";
                 <h2><?= strtoupper($produit['nom']) ?></h2>
                 <p>Prix: <?= $produit['price'] . ' €'?> </p>
                 <p><?= $produit['description'] ?></p>
-                <a href="<?= RACINE_SITE ?>agregarAlCarrito.php?produit=<?= $produit['id_produit'] ?>" class="add-to-cart btn btn-warning">Ajouter au panier</a>
+
+                <form method="post" action="<?= RACINE_SITE ?>achats/panier.php">
+                                        <input type="hidden" name="produit" value="<?= $produit['id_produit'] ?>">
+                                        <button type="submit" class="add-to-cart btn btn-warning btn-sm">Ajouter au panier</button>
+                </form>
             </div>
         </div>
     </div>
