@@ -4,16 +4,16 @@ require_once "functions.inc.php";
 $id = isset($_SESSION['user_id']) ? (int)$_SESSION['user_id'] : 0;
 $isUserConnected = false;
 if ($id > 0) {
-$user = showUser($id);
-$isUserConnected = isset($user['id']) && !empty($user['id']);
+    $user = showUser($id);
+    $isUserConnected = isset($user['id']) && !empty($user['id']);
 }
 
 if (isset($_GET['action']) && $_GET['action'] == 'deconnexion') {
-logOut();
-$_SESSION['user_id'] = 0; // Actualizar la sesión para indicar que el usuario está desconectado
-$isUserConnected = false; // Actualizar la variable $isUserConnected
-header("location:" . RACINE_SITE . "authentification.php");
-exit;
+    logOut();
+    $_SESSION['user_id'] = 0; // Actualizar la sesión para indicar que el usuario está desconectado
+    $isUserConnected = false; // Actualizar la variable $isUserConnected
+    header("location:" . RACINE_SITE . "authentification.php");
+    exit;
 }
 
 ?>
@@ -33,9 +33,9 @@ exit;
     <!-- link for Bootstrap icons-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
     <!-- Link for CSS -->
-    <link rel="stylesheet" href="<?= RACINE_SITE ?>/assets/style/style.css">
+    <link rel="stylesheet" href="<?= RACINE_SITE ?>./assets/style/style.css">
     <!-- favicon -->
-    <link rel="icon" type="image/png" href="<?= RACINE_SITE ?>/assets/img/favicon.jpg">
+    <link rel="icon" type="image/png" href="<?= RACINE_SITE ?>./assets/img/favicon.jpg">
     <title><?= $title ?></title>
 </head>
 
@@ -71,12 +71,12 @@ exit;
                     <!-- button conecter -->
 
                     <a href="<?php echo $isUserConnected ? 'index.php?action=deconnexion' : RACINE_SITE . '/authentification.php'; ?>" class="btn btn-warning btn-sm d-flex justify-content-center align-items-center col-12 col-md-1 btn-login">
-                    <?php echo $isUserConnected ? 'Deconecter' : 'Conec/Deconec'; ?>
+                        <?php echo $isUserConnected ? 'Deconecter' : 'Conec/Deconec'; ?>
                     </a>
-<!--                   
+                    <!--                   
 
                     <!-- Cart -->
-                    <a class="nav-link mx-auto col-sm-12 col-md-1 d-flex p-1" href="#">
+                    <a class="nav-link mx-auto col-sm-12 col-md-1 d-flex p-1" href="<?= RACINE_SITE ?>achats/panier.php">
                         <i class="bi bi-cart-fill col-sm-12 col-md-1 display-5 text-warning"></i>
                     </a>
                 </div>

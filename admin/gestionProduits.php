@@ -1,4 +1,3 @@
-
 <?php
 
 require_once "../inc/functions.inc.php";
@@ -102,6 +101,10 @@ $title = 'Gestion des produits';
 require_once "../inc/header.inc.php";
 ?>
 
+
+
+
+
 <main>
 
     <h2 class="text-center fw-bolder mb-5 text-danger"><?= isset($produit) ? 'Modifier un produit' : 'Ajouter un produit' ?></h2>
@@ -156,9 +159,3 @@ require_once "../inc/header.inc.php";
 require_once "../inc/footer.inc.php";
 
 ?>
-
-
-
-
-
-

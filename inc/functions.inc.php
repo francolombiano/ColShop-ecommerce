@@ -3,7 +3,6 @@
 session_start();
 
 define("RACINE_SITE","/colombie/"); // constante qui définit les dossiers dans lesquels se situe le site pour pouvoir déterminer des chemin absolus à partir de localhost (on ne prend pas locahost). Ainsi nous écrivons tous les chemins (exp : src, href) en absolus avec cette constante.
-define("IMAGES", "/img/"); //Contants pour faire le lien avec les images de les produits
 
 ///////////////////////////// Fonction de débugage //////////////////////////
 
@@ -187,6 +186,42 @@ function updateProduit(int $idProduit, string $image, string $nom, string $descr
         ':stock' => $stock
     ));
 }
+
+// funcion para anadir un producto
+
+function addProduit(string $image, string $nom, string $description, float $price, int $stock): void
+{
+
+    $pdo = connexionBdd();
+
+    $sql = "INSERT INTO produits (image, nom, description, price, stock) VALUES (:image, :nom, :description, :price, :stock)";
+    $request = $pdo->prepare($sql);
+    $request->execute(array(
+        ':image' => $image,
+        ':nom' => $nom,
+        ':description' => $description,
+        ':price' => $price,
+        ':stock' => $stock
+       
+    ));
+}
+
+/////function para eliminar un producto
+
+function deleteProduit(int $id): void
+{
+    $pdo = connexionBdd();
+
+    $sql = "DELETE FROM produits WHERE id_produit = :id";
+    $request = $pdo->prepare($sql);
+    $request->execute([':id' => $id]);
+
+    // Redirigir a la misma página con un mensaje de confirmación
+    header('Location: produits.php?deleted=true');
+    exit;
+}
+
+
 
 ////////////////panier///////////////////////
 // ///////////  Fonction pour ajouter un produit  ////////////

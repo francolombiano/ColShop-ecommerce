@@ -3,7 +3,7 @@
         <section class="container-fluid final d-flex">
             <div class="marque col-6">
                 <div class="retrait col-sm-12 col-md-12 d-flex p-4">
-                    <a class="sm-12 col-md-3" href="./index.php">
+                    <a class="sm-12 col-md-3" href="<?= RACINE_SITE ?>index.php">
                         <img src="<?= RACINE_SITE ?>/assets/img/logo.png" alt="Logo" height="150" class="logo-retrait">
                     </a>
                     <div class="texte-final col-sm-12 col-md-6">
