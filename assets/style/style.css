@@ -83,20 +83,6 @@
   transform: scale(1.1);
 }
 
-/* titre de la web */
-.site-name{
-    padding: 25%;
-    color: var(--jaune);
-    font-weight: bold;
-    border-radius: 5px; /* Borde redondeado */
-    text-shadow: 2px 2px 2px rgba(0, 0, 0, 2); /* Sombra de texto */
-}
-
-/* fonds principal indiciel */
-.fond-index{
-  background-color: var(--bleu);
-}
-
 /* Div contenant les articles */
 .articles {
   width: 80%;
@@ -168,7 +154,6 @@ h3,h2 {
   max-width: 100px; 
   max-height: 100px; 
 }
-
 
 
 

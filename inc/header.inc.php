@@ -1,6 +1,7 @@
 <?php
 require_once "functions.inc.php";
 
+// Je vérifie si la variable de session 'user_id' est définie (avec l'opérateur ternaire). Si elle est définie, elle affecte sa valeur à la variable $id après l'avoir convertie en entier. Si elle n'est pas définie, elle affecte la valeur 0 à la variable $id. 
 $id = isset($_SESSION['user_id']) ? (int)$_SESSION['user_id'] : 0;
 $isUserConnected = false;
 if ($id > 0) {
@@ -10,12 +11,14 @@ if ($id > 0) {
 
 if (isset($_GET['action']) && $_GET['action'] == 'deconnexion') {
     logOut();
-    $_SESSION['user_id'] = 0; // Actualizar la sesión para indicar que el usuario está desconectado
-    $isUserConnected = false; // Actualizar la variable $isUserConnected
+    $_SESSION['user_id'] = 0; // Rafraîchir la session pour indiquer que l'utilisateur est déconnecté
+    $isUserConnected = false; // Mettre à jour la variable $isUserConnected
     header("location:" . RACINE_SITE . "authentification.php");
     exit;
 }
 
+$panier = getPanier();
+$totalProduits = count($panier);
 ?>
 
 <!DOCTYPE html>
@@ -42,8 +45,9 @@ if (isset($_GET['action']) && $_GET['action'] == 'deconnexion') {
 <body>
     <header class="container-fluid">
         <section class="en-tete row">
-            <!-- Navbar --> <!-- Logo -->
+            <!-- Navbar --> 
             <nav class="navbar navbar-expand-lg">
+                <!-- Logo -->
                 <div class="container-fluid">
                     <a class="navbar-brand col-sm-12 col-md-1 p-2" href="<?= RACINE_SITE ?>index.php">
                         <img src="<?= RACINE_SITE ?>assets/img/logo.png" class="img-rounded" alt="Logo" height="100">
@@ -57,29 +61,25 @@ if (isset($_GET['action']) && $_GET['action'] == 'deconnexion') {
                             <a class="nav-link text-menu" href="#">A PROPOS</a>
                         </li>
                         <li class="nav-item p-1">
-                            <a class="nav-link text-menu" href="#">EXPEDITION ET RETOUR</a>
-                        </li>
-                        <li class="nav-item p-1">
-                            <a class="nav-link text-menu" href="./voirProduit.php">TOUS LES PRODUITS</a>
+                            <a class="nav-link text-menu" href="<?= RACINE_SITE ?>/tousProduits.php">TOUS LES PRODUITS</a>
                         </li>
                     </ul>
                     <!-- button Registre -->
                     <a href="<?= RACINE_SITE ?>/register.php" class="btn btn-warning btn-sm d-flex justify-content-center align-items-center col-12 col-md-1 btn-registre">
-                        Register
+                    S'inscrire
                     </a>
 
                     <!-- button conecter -->
-
                     <a href="<?php echo $isUserConnected ? 'index.php?action=deconnexion' : RACINE_SITE . '/authentification.php'; ?>" class="btn btn-warning btn-sm d-flex justify-content-center align-items-center col-12 col-md-1 btn-login">
-                        <?php echo $isUserConnected ? 'Deconecter' : 'Conec/Deconec'; ?>
+                        <?php echo $isUserConnected ? 'Deconecter' : 'Conn/Decon'; ?>
                     </a>
-                    <!--                   
-
+    
                     <!-- Cart -->
-                    <a class="nav-link mx-auto col-sm-12 col-md-1 d-flex p-1" href="<?= RACINE_SITE ?>achats/panier.php">
-                        <i class="bi bi-cart-fill col-sm-12 col-md-1 display-5 text-warning"></i>
+                    <a href="<?= RACINE_SITE?>achats/panier.php" class="nav-link mx-auto col-sm-12 col-md-1 d-flex p-1">
+                        <i class="bi bi-cart-fill col-sm-12 col-md-1 display-5 text-warning"></i> 
+                        <span class="badge badge-danger display-1 text-danger"><?= $totalProduits ?></span>
                     </a>
                 </div>
         </section>
-        <!-- title -->
+
     </header>

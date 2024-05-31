@@ -4,19 +4,23 @@ require_once "../inc/functions.inc.php";
 
 $panier = getPanier();
 
+// La fonction is_numeric() est utilisée pour vérifier si une variable est un nombre ou une chaîne numérique. Dans ce cas, la ligne de code vérifie si la valeur reçue via un formulaire HTML dans le champ « produit » est numérique. Si la valeur est un nombre ou une chaîne numérique, la fonction renverra true, sinon elle renverra false.
+//  J'ajoute un produit au panier si la condition qu'un formulaire POST ait été soumis avec un champ « produit » qui est un nombre est remplie. Si le produit est déjà dans le panier, la quantité est augmentée au lieu d'ajouter une nouvelle entrée.
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['produit']) && is_numeric($_POST['produit'])) {
+    //Attribue la valeur du champ « produit » envoyé dans la requête à la variable $idProduit.
     $idProduit = $_POST['produit'];
     // Obtenir des informations sur les produits
     $produit = getProduitParId($idProduit);
     //vérifier si le produit est déjà dans le panier
-    $cantidad = 1;
+    $quantite = 1;
+    //  Lance une boucle foreach pour parcourir chaque élément du tableau $panier.
     foreach ($panier as $item) {
         if ($item['id_produit'] == $idProduit) {
-            $cantidad++;
+            $quantite++;
         }
     }
     // Ajouter le produit au panier
-    ajouterProduitAuPanier($idProduit, $produit['nom'], $produit['price'], $produit['image'], $cantidad);
+    ajouterProduitAuPanier($idProduit, $produit['nom'], $produit['price'], $produit['image'], $quantite);
 }
 
 if (isset($_GET['supprimer']) && is_numeric($_GET['supprimer'])) {
@@ -30,14 +34,16 @@ if (isset($_GET['supprimer']) && is_numeric($_GET['supprimer'])) {
 
 $panier = getPanier();
 $total = calculerTotalPanier($panier);
+// Utilisez la fonction count() pour compter le nombre d'éléments dans le tableau panier et assignez cette valeur à la variable $totalProduits.
 $totalProduits = count($panier);
 
 $title = "Panier";
 require_once "../inc/header.inc.php";
+
 ?>
 
 <main class="container panier">
-    <h2 class="text-center text-muted my-4">Mon Panier - <?= $totalProduits?> produit(s)</h2>
+    <h2 class="text-center text-danger my-4">Mon Panier - <?= $totalProduits?> produit(s)</h2>
 
     <div class="row bg-primary p-3">
         <?php foreach ($panier as $produit):?>

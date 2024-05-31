@@ -38,22 +38,14 @@ function connexionBdd()
      return $pdo;
  }
  //////////////////////////Fonction pour finaliser la session/////////////
- function logOut() {
+ function logOut() 
+ {
     if (isset($_GET['action']) && !empty($_GET['action']) && $_GET['action'] == 'deconnexion') {
         unset($_SESSION['user_id']); // Modificar la variable de sesión a 'user_id'
         header("location:" . RACINE_SITE . "authentification.php");
     }
 }
 
-
-//  function logOut()
-// {           if (isset($_GET['action']) && !empty($_GET['action']) && $_GET['action'] == 'deconnexion') {
-//                  unset($_SESSION['user']);
-//                 header("location:" . RACINE_SITE . "authentification.php");
-//     }
-// }
- 
-// //logOut();
 
  ///////////////////// Fonction d'alert ////////////////////////////////////////
 
@@ -65,18 +57,18 @@ function alert(string $contenu, string $class)
 }
 
   //////////Fonction pour voir les premieres 9 produits sur l'index///////////////////////
-  function produitsIndex(): array
-  { $pdo = connexionBdd();
+function produitsIndex(): array
+{ $pdo = connexionBdd();
     $sql = "SELECT * FROM produits ORDER BY id_produit DESC LIMIT 9";
     $request = $pdo->query($sql);
     $result = $request->fetchAll();
     return $result;
-  }
+}
  
  //////////////////////////Function pour voir tous les produits////////////////+
 
  function allProduits(): array
- { 
+{ 
     $pdo = connexionBdd(); 
     $sql = "SELECT * FROM produits ORDER BY id_produit DESC"; 
     $request = $pdo->query($sql);
@@ -97,7 +89,7 @@ function getProduitById($id_produit): array
     return $result;
 }
 
-//////////////////// Fonction pour registrer les utilisateurs Users /////////////////////
+//////////////////// Fonction pour registrer les utilisateurs /////////////////////
 function addUser($nom, $telephone, $email, $motPasse, $civility, $ville) {
     $pdo = connexionBdd();
     // Préparer la requête avec des paramètres (???) pour éviter les injections SQL
@@ -128,6 +120,7 @@ function checkUser(string $email, string $motPasse): mixed
 {
     $pdo = connexionBdd();
     $sql = "SELECT * FROM users WHERE email = :email";
+    // Les deux points indiquent un espace réservé nommé en SQL. Le caractère générique « :id_produit » sera alors remplacé par une valeur lors de l'exécution de la requête. Je l'utilise pour prévenir les attaques par injection SQL.
     $request = $pdo->prepare($sql);
     $request->execute(array(
         ':email' => $email
@@ -153,7 +146,9 @@ function showUser(int $id): array {
 }
 
 ///////////////////////////Fonction pour modifier un produit///////////
-function updateProduit(int $idProduit, string $image, string $nom, string $description, float $price, int $stock) : void 
+
+
+function updateProduit(int $idProduit, string $nom, string $image,  float $price, string $description, int $stock) : void 
 {
     $pdo = connexionBdd();
     $target_dir = "./assets/img/"; // Dossier de destination pour l'enregistrement de l'image
@@ -187,9 +182,9 @@ function updateProduit(int $idProduit, string $image, string $nom, string $descr
     ));
 }
 
-// funcion para anadir un producto
+// Fonction pour ajouter un produit du côté de l'administrateur
 
-function addProduit(string $image, string $nom, string $description, float $price, int $stock): void
+function addProduit(string $nom, string $image, float $price, string $description, int $stock): void
 {
 
     $pdo = connexionBdd();
@@ -206,30 +201,30 @@ function addProduit(string $image, string $nom, string $description, float $pric
     ));
 }
 
-/////function para eliminar un producto
+/////Fonction pour supprimer un produit (côté administratif)
 
 function deleteProduit(int $id): void
 {
     $pdo = connexionBdd();
-
     $sql = "DELETE FROM produits WHERE id_produit = :id";
     $request = $pdo->prepare($sql);
     $request->execute([':id' => $id]);
 
-    // Redirigir a la misma página con un mensaje de confirmación
     header('Location: produits.php?deleted=true');
     exit;
 }
 
+////////////////panier//////////////////////////////////////////////////
 
-
-////////////////panier///////////////////////
 // ///////////  Fonction pour ajouter un produit  ////////////
-
+// Je vais ajouter un produit au panier stocké dans la session. Si le produit existe déjà, elle augmente la quantité. S'il n'existe pas, elle crée un nouvel article dans le panier avec les informations relatives au produit.
 function ajouterProduitAuPanier($idProduit, $nom, $price, $image) {
+    // Je vérifie s'il existe un produit avec le même $idProduit dans le panier d'achat stocké dans la session.
     if(isset($_SESSION['panier'][$idProduit])) {
+        // Si le produit existe déjà dans le panier, la quantité du produit est augmentée de 1.
         $_SESSION['panier'][$idProduit]['quantite']++;
     } else {
+        // Si le produit n'existe pas dans le panier:je crée un nouvel article dans le panier avec la clé $idProduit et un tableau avec les attributs est assigné :
         $_SESSION['panier'][$idProduit] = [
             'id_produit' => $idProduit,
             'quantite' => 1,
@@ -240,14 +235,16 @@ function ajouterProduitAuPanier($idProduit, $nom, $price, $image) {
     }
 }
 
-// Función para eliminar un producto del carrito
+// Fonction permettant de retirer un produit du panier
 function supprimerProduitDuPanier($idProduit) {
     if(isset($_SESSION['panier'][$idProduit])) {
+        // la fonction unset() est utilisée pour supprimer une variable ou un élément spécifique d'un tableau.
+        //  Je supprime l'élément correspondant à l'index $idProduit dans le tableau $_SESSION['panier']. Cela signifie que le produit dont l'ID est $idProduit sera supprimé du panier stocké dans la session de l'utilisateur.
         unset($_SESSION['panier'][$idProduit]);
     }
 }
 
-// Función para obtener el carrito
+// Fonction d'obtention du panier
 function getPanier() {
     if(isset($_SESSION['panier'])) {
         return $_SESSION['panier'];
@@ -256,36 +253,34 @@ function getPanier() {
     }
 }
 
-// Función para calcular el total del carrito
-
+//  Fonction pour calculer le total du panier
 function calculerTotalPanier($panier) {
     $total = 0;
     foreach ($panier as $produit) {
-        $total += $produit['price'] * $produit['quantite'];
+        // J'utilise l'accumulateur 
+        $total += $produit['price'] * $produit['quantite']; 
     }
     return $total;
 }
 
+//Fonction permettant d'obtenir un produit par ID
 function getProduitParId($idProduit) {
-    // Conectar a la base de datos
     $pdo = connexionBdd();
+    $sql = "SELECT * FROM produits WHERE id_produit = :id_produit";
+    $request = $pdo->prepare($sql);
+// J'utilise la fonction bindParam pour lier les paramètres de la requête préparée. Pour éviter les attaques par injection SQL :)
+    $request->bindParam(':id_produit', $idProduit);
+    $request->execute();
 
-    // Preparar la consulta
-    $query = "SELECT * FROM produits WHERE id_produit = :id_produit";
+    $produit = $request->fetch();
 
-    // Ejecutar la consulta
-    $stmt = $pdo->prepare($query);
-    $stmt->bindParam(':id_produit', $idProduit);
-    $stmt->execute();
-
-    // Obtener el resultado
-    $produit = $stmt->fetch();
-
-    // Cerrar la conexión
-    $pdo = null;
+    // fermer la conexion
+     deconnexionBdd($pdo);
 
     return $produit;
 }
+
+
 
 
 ?>

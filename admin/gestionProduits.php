@@ -10,49 +10,47 @@ if (!isset($_SESSION['user'])) {
     }
 }
 
-// Vérifier si le dossier de destination est accessible en écriture
-$target_dir = "./assets/img/"; // Chemin d'accès au dossier dans lequel les images doivent être téléchargées
-
-if (is_writable($target_dir)) {
-    echo "La carpeta es escribible. Puedes cargar las imágenes.";
-} else {
-    echo "La carpeta no es escribible. Por favor, verifica los permisos de la carpeta.";
-}
-
-$idProduit = NULL;
-
 if (isset($_GET['action']) && isset($_GET['id_produit'])) {
 
     if (!empty($_GET['action']) && $_GET['action'] == 'update' && !empty($_GET['id_produit'])) {
 
         $idProduit = $_GET['id_produit'];
-        $produit = allProduits($idProduit);
+        $produit = getProduitParId($idProduit);
     }
 }
+
 
 if (isset($_GET['action']) && isset($_GET['id_produit'])) {
-    if (!empty($_GET['action']) && $_GET['action'] == 'delete' && !empty($_GET['id_produit'])) {
-
-        $idProduit = $_GET['id_produit'];
-        $produit = deleteProduit($idProduit);
+        if (!empty($_GET['action']) && $_GET['action'] == 'delete' && !empty($_GET['id_produit'])) {
+    
+            $idProduit = $_GET['id_produit'];
+            $produit = deleteProduit($idProduit);
+        }
     }
-}
+
+// ///////////////////////////////////////////////////
 
 $info = '';
+$verif ='';
 
 if (!empty($_POST)) {
+    // debug($_POST);
 
     $verif = true;
 
     foreach ($_POST as $value) {
+
         if (empty(trim($value))) {
             $verif = false;
         }
     }
+}
 
-    if (!empty($_FILES['image']['name'])) {
+    if (!empty($_FILES['image']['name'])) { // si le nom du fichier en cours de téléchargement n'est pas vide, alors c'est qu'on est entrain de télécharger une photo
+        // debug($_FILES);
 
-        $image = $_FILES['image']['name'];
+        $image = $_FILES['image']['name']; // $image contient le chemin relatif de la photo et sera enregistré en BDD. On utilise ce chemin pour les "src" des balises <img>.
+
     }
 
     if (!$verif || empty($image)) {
@@ -61,49 +59,61 @@ if (!empty($_POST)) {
         if ($_FILES['image']['error'] != 0 || $_FILES['image']['size'] == 0 || !isset($_FILES['image']['type'])) {
             $info = alert("L'image n'est pas valide", "danger");
         }
+
         if (!isset($_POST['nom']) || (strlen($_POST['nom']) < 3 && trim($_POST['nom'])) || preg_match('/[0-9]+/', $_POST['nom'])) {
             $info .= alert("Le champ nom n'est pas valide", "danger");
         }
-
+            
         if (!isset($_POST['description']) || strlen($_POST['description']) < 30) {
-            $info .= alert("Le champs description n'est pas valide", "danger");
+             $info .= alert("Le champs description n'est pas valide", "danger");
         }
-
-        if (!isset($_POST['price']) || !is_numeric($_POST['price'])) {
-            $info .= alert("Le prix n'est pas valide", "danger");
+            
+        if (!isset($_POST['price']) || floatval($_POST['price']) === false) {
+            $info.= alert("Le prix n'est pas valide", "danger");
         }
-
+            
         if (!isset($_POST['stock'])) {
-            $info .= alert("Le stock n'est pas valide", "danger");
+             $info .= alert("Le stock n'est pas valide", "danger");
         }
 
+        //S'il n y a pas d'erreur sur le formulaire
         if (empty($info)) {
+
+            if (empty($info)) {
             $nom = htmlentities(trim($_POST['nom']));
-            $description = htmlentities(trim($_POST['description']));
             $price = (float) htmlentities(trim($_POST['price']));
+            $description = htmlentities(trim($_POST['description']));
             $stock = (int) $_POST['stock'];
+
+            // La super global $_FILES à un indice "image" qui correspond au 'name' de l'input type"file" du formulaire ainsi qu'un indice "name" qui contient le nom du fichier en cours de télechargement  
             $image = $_FILES['image']['name'];
 
-            move_uploaded_file($_FILES['image']['tmp_name'], './assets/img/' . $image);
+             // On enregistre le fichier image qui se trouve à l'adresse contenue dans $_FILES['image']['tmp_name'] vers la destination qui est le dossier "img" à l'adresse "../assets/nom_du_fichier.jpg".
+            copy($_FILES['image']['tmp_name'], '../assets/img/' . $image);
+            //debug($image)
 
             if (isset($_GET['action']) && $_GET['action'] == 'update' && isset($_GET['id_produit'])) {
-                updateProduit($idProduit, $image, $nom, $description, $price, $stock);
-            } else {
-                addProduit($image, $nom, $description, $price, $stock);
+                // $id = $_GET['id_produit'];
+
+                move_uploaded_file($_FILES['image']['tmp_name'], '../assets/img/' . $image); // copy
+
+                updateProduit($idProduit, $nom, $image, $price, $description, $stock);
+
+             } else {
+            copy($_FILES['image']['tmp_name'], '../assets/img/' . $image);
+            
+            addProduit($nom, $image, $price, $description, $stock);
             }
 
-            header('location:dashboard.php?produits_php');
-        }                
-    }
-}   
+        header('location:dashboard.php?films_php');
+        }
+    }       
+       
+}
   
 $title = 'Gestion des produits';
 require_once "../inc/header.inc.php";
 ?>
-
-
-
-
 
 <main>
 
@@ -152,7 +162,6 @@ require_once "../inc/header.inc.php";
     </form>
 
 </main>
-
 
 <?php
 

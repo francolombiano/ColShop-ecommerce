@@ -1,11 +1,14 @@
 <?php
 require_once "inc/functions.inc.php";
 
-$title = "Accueil";
+$title = "Tous les produits";
 
 require_once "inc/header.inc.php";
-$produits = produitsIndex();
+
+ $produits = allProduits();
+
 ?>
+
 <main>
      <!--Image de fond  -->
      <div class="affiche"></div>
@@ -14,8 +17,7 @@ $produits = produitsIndex();
      <div class="general col-sm-12 col-md-12 col-lg-12 container-fluid bg-light p-5">
           <div class="row">
                <div class="info col-sm-12 col-md-12 text-center mb-5">
-                    <h1 class="display-4 text-primary">ColShop - La Colombie en Paris!</h1>
-                    <p class="lead text-primary">Les produits de votre terre à portée de main</p>
+                    <h1 class="display-4 text-primary">ColShop - Tous les produits!</h1>
                     <p class="lead text-danger">Livraison gratuite à partir de 50 €</p>
                     <h4 class="text-primary">S'inscrire pour recevoir des offres et des réductions!</h4>
                </div>
@@ -57,7 +59,10 @@ $produits = produitsIndex();
 
 </main>
 
+
+
+
+
 <?php
 require_once "inc/footer.inc.php";
-
 ?>

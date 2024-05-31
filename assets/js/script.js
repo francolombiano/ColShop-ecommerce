@@ -1,10 +1,10 @@
 //Function Pour montrer et masquer le mot de passe du le formulaire 
 let champMotPasse = document.getElementById("motPasse");
-//console.log(champPasword);
+//console.log(champMotPasse);
 let show = document.getElementById("toggleMotPasse");
-//console.log(togglePassword);
+console.log(show);
 let eyeIcon = document.querySelector(".iconeye");
-//console.log(eyeIcon);
+
 
 show.addEventListener("click", function() {
     if (champMotPasse.type === "password") {
@@ -21,11 +21,11 @@ show.addEventListener("click", function() {
 //Function pour montrer et masquer la confirmation du le mot de pass du le formulaire 
 
 let champConfirmMotPasse = document.getElementById("confirmMotPasse");
-//console.log(champPasword);
+console.log(champConfirmMotPasse);
 let showConfirmMotPasse = document.getElementById("toggleConfirmMotPasse");
-//console.log(togglePassword);
+
 let eyeIconConfirmMotPasse = document.querySelector(".iconeye1");
-//console.log(eyeIcon);
+
 
 showConfirmMotPasse.addEventListener("click", function() {
     if (champConfirmMotPasse.type === "password") {
