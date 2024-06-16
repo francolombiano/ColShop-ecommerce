@@ -46,16 +46,6 @@ require_once "inc/header.inc.php";
   <section class="p-5 container-fluid bg-light">
 
     <form id="form1" action="register.php" method="POST" class="w-50 mx-auto bg-primary p-3 rounded-5 formV border p-5 col-md-8">
-    <div class="p-3 civilite col-sm-12">
-        <label for="civility" class="form-label text-warning">Civilite</label>
-        <select name="civility" id="civility" class="form-select rounded-pill input-custom">
-          <option value="" selected>--- Choisir une option ---</option>
-          <option value="femme">Femme</option>
-          <option value="homme">Homme</option>
-          <option value="autre">Autre</option>
-        </select>
-        <div id="civilityError" class="error bg-warning text-secondary rounded"></div>
-      </div>
       
     <div class="p-3 inputs col-sm-12">
         <label for="nom" class="form-label text-warning">Nom complet</label>
@@ -83,6 +73,7 @@ require_once "inc/header.inc.php";
         
       </div>
 
+      
       <div class="p-3 inputs col-sm-12">
         <label for="confirmMotPasse" class="form-label text-warning">Confirmer mot de passe</label>
         <input type="password" class="form-control rounded-pill input-custom" id="confirmMotPasse" name="confirmMotPasse" placeholder="Inscrivez ici votre Mot de Passe encore">
@@ -90,6 +81,19 @@ require_once "inc/header.inc.php";
         <div id="confirmMotPasseError" class="error bg-warning text-secondary rounded"></div>
 
       </div>
+
+      <div class="p-3 civilite col-sm-12">
+        <label for="civility" class="form-label text-warning">Civilite</label>
+        <select name="civility" id="civility" class="form-select rounded-pill input-custom">
+          <option value="" selected>--- Choisir une option ---</option>
+          <option value="femme">Femme</option>
+          <option value="homme">Homme</option>
+          <option value="autre">Autre</option>
+        </select>
+        <div id="civilityError" class="error bg-warning text-secondary rounded"></div>
+      </div>
+    
+
 
      
 
