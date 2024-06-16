@@ -18,7 +18,7 @@
             </div>
         </div>
 
-        <div class="donees col-sm-4 col-md-12 pt-4">
+        <div class="donees col-sm-6 col-md-6 pt-4">
                 <h4>Voici des informations sur la boutique en ligne</h4>
                 <i class="bi bi-geo-alt-fill"></i>
                 <p>ColShop, 10 rue de terrage, 75010. Paris-France</p>

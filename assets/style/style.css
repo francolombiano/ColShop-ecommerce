@@ -20,6 +20,8 @@
 
   body {
     width: 100%;
+    overflow-x: hidden; 
+    /* overflow-x, Pour éliminer scroll horizontal */
   }
  
   img {
@@ -44,6 +46,26 @@
      height: 80vh; 
     /* opacity: 0.95; */
   }
+
+   /* Image de fond page tous les produits */
+   .affiche-tous-produits {
+    background-image: url(../img/afiche_page_produits.jpg);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 65vh; 
+   /* opacity: 0.95; */
+ }
+
+ /* Image de fond page tous A propos */  
+ .affiche-apropos{
+  background-image: url(../img/afiche_apropos.jpg);
+     background-size: cover;
+     background-position: center;
+     background-repeat: no-repeat;
+     height: 80vh; 
+ }
+
 
   /* fond pour le header */
 .en-tete {
@@ -155,6 +177,18 @@ h3,h2 {
   max-height: 100px; 
 }
 
+/* mediaquerys */
+@media (max-width: 767px) {
+  .medias {
+    background-color: var(--gray);
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .medias {
+    background-color: var(--jaune);
+  }
+}
 
 
 

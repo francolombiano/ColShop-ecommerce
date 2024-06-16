@@ -6,18 +6,18 @@ $title = "Accueil";
 require_once "inc/header.inc.php";
 $produits = produitsIndex();
 ?>
+
 <main>
      <!--Image de fond  -->
      <div class="affiche"></div>
- 
      <!-- Titre, slogan et offres -->
-     <div class="general col-sm-12 col-md-12 col-lg-12 container-fluid bg-light p-5">
+     <div class="general col-sm-12 col-md-12 col-lg-12 bg-light p-5">
           <div class="row">
                <div class="info col-sm-12 col-md-12 text-center mb-5">
-                    <h1 class="display-4 text-primary">ColShop - La Colombie en Paris!</h1>
-                    <p class="lead text-primary">Les produits de votre terre à portée de main</p>
+                    <h1 class="display-5 fw-bolder text-secondary">ColShop - La Colombie en Paris!</h1>
+                    <p class="lead text-secondary">Les produits de votre terre à portée de main</p>
                     <p class="lead text-danger">Livraison gratuite à partir de 50 €</p>
-                    <h4 class="text-primary">S'inscrire pour recevoir des offres et des réductions!</h4>
+                    <h4 class="text-secondary">S'inscrire pour recevoir des offres et des réductions!</h4>
                </div>
           </div>
 
@@ -34,7 +34,7 @@ $produits = produitsIndex();
                                    <img src="<?= RACINE_SITE . "assets/img/" . $produit['image'] ?>" class="card-img-top" alt="image de <?= $produit['nom'] ?>">
                                    <div class="card-body">
                                         <h5 class="card-title"><?= strtoupper($produit['nom']) ?></h5>
-                                        <p class="card-text text-danger"><?= substr($produit['price'] . ' €', 0, 100) ?></p>
+                                        <p class="card-text text-danger fw-bolder fs-5"><?= substr($produit['price'] . ' €', 0, 100) ?></p>
                                         <p class="card-text text-left"><?= substr($produit['description'], 0, 100) ?>...</p>
 
                                         <div class="d-flex justify-content-between boutons-produits ml-3 mr-3">

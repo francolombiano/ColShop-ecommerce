@@ -27,6 +27,9 @@ $totalProduits = count($panier);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="title" content="ColShop">
+    <meta name="description" content="Vente de produits colombiens">
+    <meta name="author" content="Fernando Florez">
     <!-- Link for google fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -49,8 +52,8 @@ $totalProduits = count($panier);
             <nav class="navbar navbar-expand-lg">
                 <!-- Logo -->
                 <div class="container-fluid">
-                    <a class="navbar-brand col-sm-12 col-md-1 p-2" href="<?= RACINE_SITE ?>index.php">
-                        <img src="<?= RACINE_SITE ?>assets/img/logo.png" class="img-rounded" alt="Logo" height="100">
+                    <a class="navbar-brand col-sm-3 col-md-1 p-2" href="<?= RACINE_SITE ?>index.php">
+                        <img src="<?= RACINE_SITE ?>assets/img/logo.png" class="img-rounded logo-responsive" alt="Logo" height="auto">
                     </a>
                     <!-- Menu Navigation -->
                     <ul class="navbar-nav col-sm-12 d-flex col-md-7 mx-auto">
@@ -58,7 +61,7 @@ $totalProduits = count($panier);
                             <a class="nav-link text-menu" href="<?= RACINE_SITE ?>/index.php">ACCUEIL</a>
                         </li>
                         <li class="nav-item p-1">
-                            <a class="nav-link text-menu" href="#">A PROPOS</a>
+                            <a class="nav-link text-menu" href="<?= RACINE_SITE ?>/apropos.php">A PROPOS</a>
                         </li>
                         <li class="nav-item p-1">
                             <a class="nav-link text-menu" href="<?= RACINE_SITE ?>/tousProduits.php">TOUS LES PRODUITS</a>
@@ -77,7 +80,7 @@ $totalProduits = count($panier);
                     <!-- Cart -->
                     <a href="<?= RACINE_SITE?>achats/panier.php" class="nav-link mx-auto col-sm-12 col-md-1 d-flex p-1">
                         <i class="bi bi-cart-fill col-sm-12 col-md-1 display-5 text-warning"></i> 
-                        <span class="badge badge-danger display-1 text-danger"><?= $totalProduits ?></span>
+                        <span class="badge badge-danger display-1 text-danger fw-bolder fs-3"><?= $totalProduits ?></span>
                     </a>
                 </div>
         </section>

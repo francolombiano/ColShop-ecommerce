@@ -50,11 +50,14 @@ function connexionBdd()
  ///////////////////// Fonction d'alert ////////////////////////////////////////
 
 function alert(string $contenu, string $class)
-{ return "<div class='alert alert-$class alert-dismissible fade show text-center w-50 m-auto mb-5' text-dark role='alert'>
+{ return "<div class='alert alert-$class alert-dismissible fade show text-center w-50 m-auto bg-warning mb-5' text-dark role='alert'>
                 $contenu
     <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
     </div>";
 }
+
+// La fonction reçoit deux paramètres : $contenu et $class. Le contenu du premier paramètre sera le texte affiché dans l'alerte, et la classe du deuxième paramètre déterminera le type d'alerte qui sera affiché (par exemple, "success", "warning", "danger", etc.).
+// La fonction renvoie un <div> avec la classe "alert alert-$class" pour styliser le cadre d'alerte. À l'intérieur de ce div, le contenu du paramètre est affiché, et un bouton est ajouté pour que l'utilisateur puisse fermer l'alerte.
 
   //////////Fonction pour voir les premieres 9 produits sur l'index///////////////////////
 function produitsIndex(): array
@@ -151,17 +154,17 @@ function showUser(int $id): array {
 function updateProduit(int $idProduit, string $nom, string $image,  float $price, string $description, int $stock) : void 
 {
     $pdo = connexionBdd();
-    $target_dir = "./assets/img/"; // Dossier de destination pour l'enregistrement de l'image
-    //  Vérifier si un fichier image a été correctement téléchargé, le déplacer à l'endroit souhaité et enregistrer le nom de l'image dans une variable.
-    //  Je vérifie qu'il n'y a pas eu d'erreur lors du téléchargement du fichier image. La constante UPLOAD_ERR_OK indique qu'il n'y a pas eu d'erreur lors du téléchargement du fichier.
-    if ($_FILES['image']['error'] === UPLOAD_ERR_OK) { 
-    // J'ai crée le chemin complet du fichier image à l'emplacement souhaité. $target_dir est le dossier de destination dans lequel le fichier sera stocké.
-        $target_file = $target_dir . basename($_FILES['image']['name']);
-    // Je déplacer le fichier image de son emplacement temporaire (stocké dans $_FILES['image']]['tmp_name']) vers l'emplacement final dans $target_file.
-        move_uploaded_file($_FILES['image']['tmp_name'], $target_file);
-    // Je stocke le nom de l'image dans une variable appelée $image.
-        $image = basename($_FILES['image']['name']);
-    }
+    // $target_dir = "./assets/img/"; // Dossier de destination pour l'enregistrement de l'image
+    // //  Vérifier si un fichier image a été correctement téléchargé, le déplacer à l'endroit souhaité et enregistrer le nom de l'image dans une variable.
+    // //  Je vérifie qu'il n'y a pas eu d'erreur lors du téléchargement du fichier image. La constante UPLOAD_ERR_OK indique qu'il n'y a pas eu d'erreur lors du téléchargement du fichier.
+    // if ($_FILES['image']['error'] === UPLOAD_ERR_OK) { 
+    // // J'ai crée le chemin complet du fichier image à l'emplacement souhaité. $target_dir est le dossier de destination dans lequel le fichier sera stocké.
+    //     $target_file = $target_dir . basename($_FILES['image']['name']);
+    // // Je déplacer le fichier image de son emplacement temporaire (stocké dans $_FILES['image']]['tmp_name']) vers l'emplacement final dans $target_file.
+    //     move_uploaded_file($_FILES['image']['tmp_name'], $target_file);
+    // // Je stocke le nom de l'image dans une variable appelée $image.
+    //     $image = basename($_FILES['image']['name']);
+    // }
 
     $sql = "UPDATE produits SET 
                 nom = :nom,

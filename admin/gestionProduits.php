@@ -70,6 +70,7 @@ if (!empty($_POST)) {
             
         if (!isset($_POST['price']) || floatval($_POST['price']) === false) {
             $info.= alert("Le prix n'est pas valide", "danger");
+            // .= « signifie que la valeur de la fonction alert( »Le prix n'est pas valide", “danger”) est concaténée à la valeur actuelle de la variable $info. En d'autres termes, le résultat de la fonction alert est ajouté à la variable $info.
         }
             
         if (!isset($_POST['stock'])) {
@@ -83,6 +84,7 @@ if (!empty($_POST)) {
             $nom = htmlentities(trim($_POST['nom']));
             $price = (float) htmlentities(trim($_POST['price']));
             $description = htmlentities(trim($_POST['description']));
+            // htmlentities en PHP convertit les caractères spéciaux en entités HTML, ce qui signifie qu'il convertit les caractères tels que <, >, &, « , ' en leur équivalent HTML. 
             $stock = (int) $_POST['stock'];
 
             // La super global $_FILES à un indice "image" qui correspond au 'name' de l'input type"file" du formulaire ainsi qu'un indice "name" qui contient le nom du fichier en cours de télechargement  
@@ -91,12 +93,13 @@ if (!empty($_POST)) {
              // On enregistre le fichier image qui se trouve à l'adresse contenue dans $_FILES['image']['tmp_name'] vers la destination qui est le dossier "img" à l'adresse "../assets/nom_du_fichier.jpg".
             copy($_FILES['image']['tmp_name'], '../assets/img/' . $image);
             //debug($image)
+            // copie le fichier image téléchargé par l'utilisateur dans le répertoire « assets/img » sur le serveur avec un nom de fichier spécifié par la variable $image.
 
             if (isset($_GET['action']) && $_GET['action'] == 'update' && isset($_GET['id_produit'])) {
                 // $id = $_GET['id_produit'];
 
                 move_uploaded_file($_FILES['image']['tmp_name'], '../assets/img/' . $image); // copy
-
+                    //  La fonction move_uploaded_file() copie le fichier de l'emplacement temporaire à l'emplacement final sur le serveur.
                 updateProduit($idProduit, $nom, $image, $price, $description, $stock);
 
              } else {
@@ -105,7 +108,7 @@ if (!empty($_POST)) {
             addProduit($nom, $image, $price, $description, $stock);
             }
 
-        header('location:dashboard.php?films_php');
+        header('location:dashboard.php?produits_php');
         }
     }       
        
@@ -115,48 +118,48 @@ $title = 'Gestion des produits';
 require_once "../inc/header.inc.php";
 ?>
 
-<main>
+<main class="bg-secondary">
 
-    <h2 class="text-center fw-bolder mb-5 text-danger"><?= isset($produit) ? 'Modifier un produit' : 'Ajouter un produit' ?></h2>
+    <h2 class="text-center mb-5 text-warning p-5"><?= isset($produit) ? 'Modifier un produit' : 'Ajouter un produit' ?></h2>
     <?php
     echo $info;
     ?>
-    <form action="" method="post" enctype="multipart/form-data">
-
+    <form action="" method="post" class="container-fluid col-sm-12 col-md-8" enctype="multipart/form-data">
+<!-- multipart/form-dataes est utilisé pour envoyer des fichiers d'un formulaire HTML à un serveur. Il est utilisé lorsqu'un formulaire comprend des entrées de fichiers, telles que <input type=« file »> et que le formulaire est soumis au serveur. -->
         <div class="row">
             <div class="col-md-6 mb-5">
-                <label for="nom">Nom</label>
-                <input type="text" id="nom" name="nom" class="form-control fs-3" value="<?= $produit['nom'] ?? '' ?>">
+                <label for="nom" class="text-warning fw-bolder fs-5">Nom</label>
+                <input type="text" id="nom" name="nom" class="form-control fs-5" value="<?= $produit['nom'] ?? '' ?>">
             </div>
             <div class="col-md-6 mb-5">
-                <label for="image">Photo</label>
-                <input class="form-control fs-3" type="file" id="image" name="image" value="<?= $produit['image'] ?? '' ?>">
+                <label for="image" class="text-warning fw-bolder fs-5">Photo</label>
+                <input class="form-control fs-5" type="file" id="image" name="image" value="<?= $produit['image'] ?? '' ?>">
             </div>
         </div>
 
         <div class="row">
             <div class="col-md-6 mb-5">
-                <label for="price">Prix</label>
+                <label for="price" class="text-warning fw-bolder fs-5">Prix</label>
                 <div class="input-group">
-                    <input type="text" class="form-control fs-3" id="price" name="price" value="<?= $produit['price'] ?? '' ?>" aria-label="Euros amount(with dot and two decimal places">
+                    <input type="text" class="form-control fs-5" id="price" name="price" value="<?= $produit['price'] ?? '' ?>" aria-label="Euros amount(with dot and two decimal places">
                     <span class="input-group-text">€</span>
                 </div>
             </div>
             <div class="col-md-6 mb-5">
-                <label for="stock">Stock</label>
-                <input type="number" name="stock" id="stock" class="form-control fs-3" min="0" value="<?= $produit['stock'] ?? '' ?>">
+                <label for="stock" class="text-warning fw-bolder fs-5">Stock</label>
+                <input type="number" name="stock" id="stock" class="form-control fs-5" min="0" value="<?= $produit['stock'] ?? '' ?>">
             </div>
         </div>
 
         <div class="row">
             <div class="col-12">
-                <label for="description">Description</label>
-                <textarea name="description" id="description" cols="30" rows="10" class="form-control fs-3"><?= $produit['description'] ?? '' ?></textarea>
+                <label for="description" class="text-warning fw-bolder fs-5">Description</label>
+                <textarea name="description" id="description" cols="30" rows="10" class="form-control fs-5"><?= $produit['description'] ?? '' ?></textarea>
             </div>
         </div>
 
-        <div class="row">
-            <button type="submit" class="btn btn-danger w-50 p-3 mx-auto fs-3 mt-5"><?= isset($produit) ? 'Modifier' : 'Ajouter' ?></button>
+        <div class="row p-4">
+            <button type="submit" class="btn btn-warning text-danger w-50 mx-auto fs-3 mt-5"><?= isset($produit) ? 'Modifier' : 'Ajouter' ?></button>
         </div>
       
     </form>

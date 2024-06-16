@@ -45,7 +45,7 @@ require_once "../inc/header.inc.php";
 <main class="container panier">
     <h2 class="text-center text-danger my-4">Mon Panier - <?= $totalProduits?> produit(s)</h2>
 
-    <div class="row bg-primary p-3">
+    <div class="row bg-primary rounded p-3">
         <?php foreach ($panier as $produit):?>
             <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
                 <div class="card">
@@ -60,7 +60,7 @@ require_once "../inc/header.inc.php";
         <?php endforeach;?>
     </div>
 
-    <div class="text-center mt-4 p-5 text-danger">
+    <div class="text-center mt-4 p-5 text-danger fw-bolder">
         <p>Total: <?= $total?> €</p>
         <a href="<?= RACINE_SITE?>achats/paiement.php" class="btn btn-warning btn-lg text-danger">Paiement</a>
     </div>
